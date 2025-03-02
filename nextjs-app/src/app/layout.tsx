@@ -18,20 +18,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Notate - Intelligent notes.",
   description: "Notate uses AI to automatically organize your notes, generate fitting content, and make information easy to read and understand.",
-  icons: {
-    icon: [
-      {
-        media: '(prefers-color-scheme: light)',
-        url: '/logo-light.svg',
-        href: '/logo-light.svg',
-      },
-      {
-        media: '(prefers-color-scheme: dark)',
-        url: '/logo-dark.svg',
-        href: '/logo-dark.svg',
-      },
-    ],
-  },
+  icons: [
+    {
+      rel: 'icon',
+      type: 'image/png',
+      url: '/favicon.png',
+      media: '(prefers-color-scheme: light)',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      url: '/favicon-dark.png',
+      media: '(prefers-color-scheme: dark)',
+    },
+  ],
 };
 
 export default function RootLayout({
