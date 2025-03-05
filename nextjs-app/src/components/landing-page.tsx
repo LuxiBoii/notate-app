@@ -84,6 +84,7 @@ const MacOsWindow = (
                     ref={input_ref}
                     onSubmit={(e) => {
                         e.preventDefault()
+                        if(!e.currentTarget.firstChild?.textContent?.trim()){return}
                         e.currentTarget.reset()
                         setIsGenerating(true)
 
