@@ -16,8 +16,8 @@ const system = `
 
 
 const rules = `
-  rules:
-  1. You can use the github style markdown language to format your output like tables, quotes, code and more, so dont use any LaTeX-like math expressions.
+  strict rules:
+  1. You can use the github style markdown language to format your output like tables, quotes, code and more. Dont use any LaTeX-like math expressions.
   2. Dont use emojis, instead make good use of the markdown format.
   `
 

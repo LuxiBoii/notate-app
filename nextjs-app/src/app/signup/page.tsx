@@ -7,6 +7,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 
+import { supabase } from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"

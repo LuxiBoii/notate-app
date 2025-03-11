@@ -1,25 +1,13 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
-
 import { toast } from "sonner"
-
+import Cookies from 'js-cookie'
 import { cn } from "@/lib/utils"
-
 import CenterInput from "@/components/center-input"
-
 import { ModeToggle } from "@/components/ui/mode-toggle"
-
 import Message from "@/components/ui/message"
-
 import { Button } from "../button"
-
-import { Plus, Trash } from "lucide-react"
-
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "@/components/ui/popover"
+import { Plus } from "lucide-react"
 
 interface Message {
     role: 'user' | 'assistant';
@@ -29,8 +17,29 @@ interface Message {
 function ChatComponent() {
     const [isGenerating, setIsGenerating] = useState<boolean>(false)
     const [input, setInput] = useState<string>("")
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [messages, setMessages] = useState<Message[]>([])
     const [mode, setMode] = useState<string>("chat")
+
+    // Load messages from cookies on mount
+    useEffect(() => {
+        const savedMessages = Cookies.get('chat_messages');
+        if (savedMessages) {
+            try {
+                setMessages(JSON.parse(savedMessages));
+            } catch (e) {
+                console.error('Failed to parse saved messages');
+            }
+        }
+    }, []);
+
+    // Save messages to cookies whenever they change
+    useEffect(() => {
+        if (messages.length > 0) {
+            Cookies.set('chat_messages', JSON.stringify(messages), { expires: 7 }); // Expires in 7 days
+        } else {
+            Cookies.remove('chat_messages');
+        }
+    }, [messages]);
 
     const sendMessage = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -48,20 +57,20 @@ function ChatComponent() {
         setInput('');
     
         try {
-            ///api/notate-ai for real ai
-            const res = await fetch('/api/notate-ai', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    messages: messages.concat(userMessage),
-                    mode
-                }),
-            });
 
-            //const res = await fetch('/api/simulated-stream', {
-            //    method: 'GET',
+            //const res = await fetch('/api/notate-ai', {
+            //    method: 'POST',
             //    headers: { 'Content-Type': 'application/json' },
-            //})
+            //    body: JSON.stringify({ 
+            //        messages,
+            //        mode
+            //    }),
+            //});
+
+            const res = await fetch('/api/simulated-stream', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            })
 
             if (!res.ok) {
                 throw new Error('API request failed');
@@ -99,7 +108,7 @@ function ChatComponent() {
         }
     };
 
-    const handleReset =  () =>{
+    const handleReset = () => {
         setMessages([]);
     }
 
@@ -111,7 +120,7 @@ function ChatComponent() {
         <div className="h-dvh w-dvw flex justify-center items-center">
             <div className="relative h-full w-full flex-col flex items-center justify-center">
 
-                <div className="absolute flex right-0 top-0 m-2 space-x-2">
+                <div className="absolute flex right-0 bottom-0 m-2 space-x-2">
                     {messages.length!=0 &&
                         
                         <Button 
@@ -126,23 +135,32 @@ function ChatComponent() {
                 </div>
 
                 <div className={cn("overflow-auto space-y-4 w-full py-8 px-4 scroll-smooth",messages.length!=0&&"flex-1 border-b" )}>
-                    <div className="max-w-full w-3xl m-auto space-y-2">
-                        {messages.map((msg, i) => (
-                            <Message 
-                                key={i} 
-                                profile_fallback={msg.role=="assistant"?"NO":"YOU"} 
-                                profile_url={msg.role=="assistant"?"/notate-ai-profile-pic.svg":"/default-profile-pic.svg"} 
-                                username={msg.role=="assistant"?"Notate AI":"You"} 
-                                message={msg.content} 
-                                isAssistant={msg.role=="assistant"}
-                                className={cn(msg.role!=="assistant" ? "bg-muted dark:bg-muted/25":"border border-border/50")}
-                                //handleRevert={() => handleRevert(i)}
-                            />
-                        ))}
+                    <div className="w-full m-auto space-y-2">
+                        {messages.map((msg, i) => {
+                            const isAssistant = msg.role === "assistant"
+                            return(
+                                <Message 
+                                    key={i}
+                                    profile_url={!isAssistant ? "/default-profile-pic.svg" : undefined} 
+                                    username={isAssistant ? "Notate AI" : "You"} 
+                                    message={msg.content} 
+                                    isAssistant={isAssistant}
+                                />
+                            )
+                        })}
                     </div>
                 </div>
 
-                <CenterInput handleReset={handleReset} mode={mode} setMode={setMode} input={input} setInput={setInput} sendMessage={sendMessage} isGenerating={isGenerating} isShowingMessages={messages.length!=0}/>
+                <CenterInput 
+                    handleReset={handleReset} 
+                    mode={mode} 
+                    setMode={setMode} 
+                    input={input} 
+                    setInput={setInput} 
+                    sendMessage={sendMessage} 
+                    isGenerating={isGenerating} 
+                    isShowingMessages={messages.length!=0}
+                />
             </div>
         </div>
      );

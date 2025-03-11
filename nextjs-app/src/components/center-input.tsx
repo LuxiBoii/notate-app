@@ -1,3 +1,4 @@
+"use client"
 import { cn } from "@/lib/utils"
 
 import { ArrowUp, LoaderCircle } from "lucide-react"
@@ -6,11 +7,20 @@ import { Button } from "@/components/ui/button"
 
 import { AutoResizeTextarea } from "./ui/autoresize-textarea"
 
-import NotateModeToggle from "./ui/notate-mode-toggle"
-
 import { Trash } from "lucide-react"
 import { Separator } from "./ui/separator"
-import { MouseEventHandler } from "react"
+import { MouseEventHandler, useState } from "react"
+
+import MinimalDropdown from "./ui/minimal-dropdown"
+
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
+  
 
 interface CenterInputProps {
     sendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -24,6 +34,16 @@ interface CenterInputProps {
 }
 
 function CenterInput({sendMessage, input, setInput, isGenerating, isShowingMessages, mode, setMode, handleReset}: CenterInputProps) {
+    
+    const [wordAmount, setWordAmount] = useState("50 words")
+    const wordCountOptions = [
+        { label: "50 words", isPro: false },
+        { label: "120 words", isPro: false },
+        { label: "250 words", isPro: true },
+        { label: "500 words", isPro: true },
+        { label: "No limit", isPro: true },
+      ]
+    
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault()
@@ -55,9 +75,9 @@ function CenterInput({sendMessage, input, setInput, isGenerating, isShowingMessa
                         {isGenerating?<LoaderCircle className="animate-spin" strokeWidth={2.5} size={10}/>:<ArrowUp strokeWidth={2.5} size={10}/>}
                     </Button>
                 </div>
-                <div className="px-2.5 pt-2 space-x-4 flex w-full">
+                <div className="px-5 pt-2 space-x-4 flex w-full">
                     <div className="space-x-1">
-                        <NotateModeToggle setMode={setMode} mode={mode}/>
+                        <MinimalDropdown options={wordCountOptions} onChange={setWordAmount} selectedValue={wordAmount}/>
                     </div>
                 </div>
             </form>
