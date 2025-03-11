@@ -7,22 +7,12 @@ import { Button } from "@/components/ui/button"
 
 import { AutoResizeTextarea } from "./ui/autoresize-textarea"
 
-import { Trash } from "lucide-react"
-import { Separator } from "./ui/separator"
 import { MouseEventHandler, useState } from "react"
 
 import MinimalDropdown from "./ui/minimal-dropdown"
-
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
   
 
-interface CenterInputProps {
+interface ChatInputAreaProps {
     sendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
     input: string;
     setInput: (value: string) => void;
@@ -33,7 +23,7 @@ interface CenterInputProps {
     handleReset:MouseEventHandler;
 }
 
-function CenterInput({sendMessage, input, setInput, isGenerating, isShowingMessages, mode, setMode, handleReset}: CenterInputProps) {
+function ChatInputArea({sendMessage, input, setInput, isGenerating, isShowingMessages, mode, setMode, handleReset}: ChatInputAreaProps) {
     
     const [wordAmount, setWordAmount] = useState("50 words")
     const wordCountOptions = [
@@ -85,4 +75,4 @@ function CenterInput({sendMessage, input, setInput, isGenerating, isShowingMessa
      );
 }
 
-export default CenterInput;
+export default ChatInputArea;

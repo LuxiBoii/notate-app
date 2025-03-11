@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import Cookies from 'js-cookie'
 import { cn } from "@/lib/utils"
-import CenterInput from "@/components/center-input"
+import ChatInputArea from "@/components/chat-input-area"
 import { ModeToggle } from "@/components/ui/mode-toggle"
 import Message from "@/components/ui/message"
 import { Button } from "../button"
@@ -151,7 +151,7 @@ function ChatComponent() {
                     </div>
                 </div>
 
-                <CenterInput 
+                <ChatInputArea 
                     handleReset={handleReset} 
                     mode={mode} 
                     setMode={setMode} 
