@@ -1,13 +1,9 @@
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism"; // Import Atom One Dark theme
 import { useTheme } from "next-themes";
 
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
-
-import hljs from 'highlight.js';
 
 interface CodeSnippetProps {
     children: React.ReactNode;
@@ -16,7 +12,6 @@ interface CodeSnippetProps {
 
 function CodeSnippet({ children, className }: CodeSnippetProps) {
     const [hasCopied, setHasCopied] = useState(false);
-    const { theme } = useTheme();
     const content = String(children).replace(/\n$/, '');
     const language = className?.replace('language-', '') || 'text';
     
@@ -49,14 +44,8 @@ function CodeSnippet({ children, className }: CodeSnippetProps) {
                     {hasCopied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
                 </Button>
             </div>
-            <div className="overflow-x-auto w-full box-border">
-                <SyntaxHighlighter 
-                    language={language}
-                    style={theme === 'dark' ? oneDark : oneLight}
-                    className="!rounded-none !m-0 box-border *:max-w-full"
-                >
-                    {content}
-                </SyntaxHighlighter>
+            <div className="overflow-x-auto w-full box-border rounded-none m-0 *:max-w-full">
+                {content}
             </div>
         </div>
      );

@@ -2,12 +2,11 @@
 
 import { ModeToggle } from "./ui/mode-toggle"
 import { Badge } from "./ui/badge"
-import { Logo } from "./ui/logo"
 
 import { toast } from "sonner" 
 import { ScrollAppear } from "./utils/scroll-appear"
 
-import motion from "framer-motion"
+import Header from "./landingpage-ui/header"
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -120,90 +119,19 @@ const MacOsWindow = (
     );
 }
 
+const navLinks = [
+  { href: '#features', label: 'Features' },
+  { href: '#how-it-works', label: 'How It Works' },
+  { href: '#pricing', label: 'Pricing' },
+  { href: '#testimonials', label: 'Testimonials' },
+]
+
 export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <header className="sticky top-0 z-40 w-full">
-        <ScrollAppear yOffset={-40} delay={0.2} className="w-full border-b bg-background/75 backdrop-blur-2xl">
-          <div className="container flex h-16 items-center justify-between px-4 md:px-6 m-auto">
-            <Link href="/" className="flex items-center gap-2">
-              <Logo size={20}className="size-6"/>
-              <span className="text-xl font-bold">Notate</span>
-            </Link>
-            <nav className="hidden md:flex gap-6">
-              <Link href="#features" className="text-sm font-medium hover:text-primary transition-colors">
-                Features
-              </Link>
-              <Link href="#how-it-works" className="text-sm font-medium hover:text-primary transition-colors">
-                How It Works
-              </Link>
-              <Link href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">
-                Pricing
-              </Link>
-              <Link href="#testimonials" className="text-sm font-medium hover:text-primary transition-colors">
-                Testimonials
-              </Link>
-            </nav>
-            <div className="hidden md:flex gap-4">
-              <Link href="/login">
-                <Button variant="ghost">Log in</Button>
-              </Link>
-              <Link href="/signup">
-                <Button>Sign up</Button>
-              </Link>
-            </div>
-            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
-          </div>
-          {isMenuOpen && (
-            <div className="md:hidden absolute w-full bg-background border-b py-4">
-              <nav className="container flex flex-col gap-4 px-4">
-                <Link
-                  href="#features"
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Features
-                </Link>
-                <Link
-                  href="#how-it-works"
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  How It Works
-                </Link>
-                <Link
-                  href="#pricing"
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Pricing
-                </Link>
-                <Link
-                  href="#testimonials"
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Testimonials
-                </Link>
-                <div className="flex gap-4 pt-2">
-                  <Link href="/login" className="w-full">
-                    <Button variant="outline" className="w-full">
-                      Log in
-                    </Button>
-                  </Link>
-                  <Link href="/signup" className="w-full">
-                    <Button className="w-full">Sign up</Button>
-                  </Link>
-                </div>
-              </nav>
-            </div>
-          )}
-        </ScrollAppear>
-      </header>
+      <Header navLinks={navLinks} animated/>
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6 m-auto">
@@ -259,7 +187,7 @@ export default function LandingPage() {
                   </ScrollAppear>
                 </div>
               </div>
-              <ScrollAppear duration={1.5} yOffset={40} delay={1}>
+              <ScrollAppear duration={1} yOffset={40} delay={0.5}>
                 <MacOsWindow 
                   windowTitle="Meeting Notes - Project Apollo" 
                   inputPlaceholders={["What's something on your mind?","Generating your notes..."]}
@@ -325,71 +253,67 @@ export default function LandingPage() {
         </section>
 
         <section id="features" className="w-full py-12 md:py-24 bg-muted/40 dark:bg-muted/15 border-y">
-          <div className="container px-4 md:px-6 m-auto">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <ScrollAppear delay={0.4}>
-                  <Badge icon={Zap} text="Powerful Features" />
-                </ScrollAppear>
-                <ScrollAppear delay={0.2}>
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Smart notes that work for you</h2>
-                  <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">
-                    Notate combines powerful AI with intuitive design to transform how you capture and organize
-                    information.
-                  </p>
-                </ScrollAppear>
+          <ScrollAppear>
+            <div className="container px-4 md:px-6 m-auto">
+              <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                <div className="space-y-2">
+                    <Badge icon={Zap} text="Powerful Features" />
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Smart notes that work for you</h2>
+                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">
+                      Notate combines powerful AI with intuitive design to transform how you capture and organize
+                      information.
+                    </p>
+                </div>
               </div>
-            </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3">
-              {[
-                {
-                  icon: Package,
-                  title: "AI Organization",
-                  description:
-                    "Our AI automatically categorizes and structures your notes, creating a logical flow of information.",
-                },
-                {
-                  icon: Sparkles,
-                  title: "Content Generation",
-                  description:
-                    "Get AI-powered suggestions and content enhancements that fit perfectly with your existing notes.",
-                },
-                {
-                  icon: FileText,
-                  title: "Smart Formatting",
-                  description:
-                    "Notes are automatically formatted for maximum readability with headings, bullet points, and highlights.",
-                },
-                {
-                  icon: Layers,
-                  title: "Contextual Connections",
-                  description:
-                    "Discover relationships between notes you never knew existed with AI-powered connections.",
-                },
-                {
-                  icon: RefreshCw,
-                  title: "Real-time Sync",
-                  description: "Your notes sync instantly across all devices, so you're always up to date.",
-                },
-                {
-                  icon: CheckCircle,
-                  title: "Action Items",
-                  description:
-                    "AI identifies and tracks action items from your notes, helping you stay on top of tasks.",
-                },
-              ].map((feature, index) => (
-                <div key={index} className="relative group h-full">
-                  <ScrollAppear delay={0.4 + 0.15*index} className="h-full">
+              <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3">
+                {[
+                  {
+                    icon: Package,
+                    title: "AI Organization",
+                    description:
+                      "Our AI automatically categorizes and structures your notes, creating a logical flow of information.",
+                  },
+                  {
+                    icon: Sparkles,
+                    title: "Content Generation",
+                    description:
+                      "Get AI-powered suggestions and content enhancements that fit perfectly with your existing notes.",
+                  },
+                  {
+                    icon: FileText,
+                    title: "Smart Formatting",
+                    description:
+                      "Notes are automatically formatted for maximum readability with headings, bullet points, and highlights.",
+                  },
+                  {
+                    icon: Layers,
+                    title: "Contextual Connections",
+                    description:
+                      "Discover relationships between notes you never knew existed with AI-powered connections.",
+                  },
+                  {
+                    icon: RefreshCw,
+                    title: "Real-time Sync",
+                    description: "Your notes sync instantly across all devices, so you're always up to date.",
+                  },
+                  {
+                    icon: CheckCircle,
+                    title: "Action Items",
+                    description:
+                      "AI identifies and tracks action items from your notes, helping you stay on top of tasks.",
+                  },
+                ].map((feature, index) => (
+                  <div key={index} className="relative group h-full">
                     <div className="flex flex-col items-center space-y-1 rounded-xl border bg-card p-6 shadow transition-all hover:shadow-sm h-full dark:bg-radial-[at_50%_3.5rem] from-muted/25 to-background">
                       <feature.icon className="h-10 w-10 text-foreground mb-5 mt-3" />
                       <h3 className="text-xl font-bold">{feature.title}</h3>
                       <p className="text-sm text-muted-foreground text-center">{feature.description}</p>
                     </div>
-                  </ScrollAppear>
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+            </ScrollAppear>
         </section>
 
         <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32">
@@ -536,19 +460,17 @@ export default function LandingPage() {
                   </div>
                 ))}
                 <div className="hidden absolute bottom-0 md:flex items-end justify-center left-1/2 -translate-x-1/2 bg-linear-to-t from-[#fbfbfb] dark:from-[#0f0f0f] from-30% to-transparent h-1/2 w-screen" >
-                  <ScrollAppear delay={1} className="flex justify-center">
                     <Button>
                       Read more
                       <SquareArrowOutUpRight/>
                     </Button>
-                    </ScrollAppear>
                 </div>
-                <ScrollAppear delay={1} className="flex justify-center">
-                  <Button variant="outline" className="flex w-fit md:hidden">
+                <div className="flex justify-center md:hidden">
+                  <Button variant="outline" className="w-fit">
                       Read more
                       <SquareArrowOutUpRight/>
                   </Button>
-                </ScrollAppear>
+                </div>
               </div>
             </ScrollAppear>
           </div>

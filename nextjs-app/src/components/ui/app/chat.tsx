@@ -58,21 +58,17 @@ function ChatComponent() {
     
         try {
 
-            //const res = await fetch('/api/notate-ai', {
-            //    method: 'POST',
-            //    headers: { 'Content-Type': 'application/json' },
-            //    body: JSON.stringify({ 
-            //        messages,
-            //        mode
-            //    }),
-            //});
-
-            const res = await fetch('/api/simulated-stream', {
-                method: 'GET',
+            const res = await fetch('/api/notate-ai', {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-            })
+                body: JSON.stringify({ 
+                    messages,
+                    mode
+                }),
+            });
 
             if (!res.ok) {
+                console.error(res.json)
                 throw new Error('API request failed');
             }
 

@@ -15,7 +15,7 @@ export function AutoResizeTextarea({ className, value, onChange, ...props }: Aut
   const resizeTextarea = () => {
     const textarea = textareaRef.current
     if (textarea) {
-      textarea.style.height = "auto"
+      textarea.style.height = "fit"
       textarea.style.height = `${textarea.scrollHeight}px`
     }
   }
@@ -34,7 +34,7 @@ export function AutoResizeTextarea({ className, value, onChange, ...props }: Aut
         onChange(e.target.value)
         resizeTextarea()
       }}
-      className={cn("resize-none min-h-10 max-h-80", className)}
+      className={cn("resize-none min-h-5 max-h-80", className)}
     />
   )
 }

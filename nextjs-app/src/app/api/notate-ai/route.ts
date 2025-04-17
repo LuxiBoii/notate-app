@@ -6,20 +6,12 @@ const openai = new OpenAI({
 });
 
 const system = `
-  You are a helpful AI assistant. Your name is and has always been Notate AI.
-  You are professional in your tone, but not to "british.
-  When saying what you do: Notate uses artificial intelligens to automatically organize your notes, generate fitting content, and make information easy to read and understand.
-  When a user asks to get notes, then please elaborate a good amount.
-  When tasked with something, do not elaborate, or do anything else unless its purely necessary.
-  When users right an idea or a thought down you need to create a note for it or add it to an already existing fitting note.".
+  You are a helpful AI assistant with a relaxed tone. Your name is and has always been Notate AI.
+  Notate uses artificial intelligens to automatically organize your notes, generate fitting content, and make information easy to read and understand.
+  Make your answers concise.
+  When tasked with something, do not elaborate upon the answer unless its purely necessary.
+  You can use the github style markdown language to format your output like tables, quotes, code and more.
 `
-
-
-const rules = `
-  strict rules:
-  1. You can use the github style markdown language to format your output like tables, quotes, code and more. Dont use any LaTeX-like math expressions.
-  2. Dont use emojis, instead make good use of the markdown format.
-  `
 
 const disabled = false;
 
@@ -34,14 +26,10 @@ export async function POST(request: Request) {
       });
     }
 
-    const modeText = `
-      user is in "${mode}" mode.
-    `;
-
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: system+rules+modeText},
+        { role: 'system', content: system},
         ...messages
       ],
       stream: true,

@@ -27,7 +27,7 @@ export default function MinimalDropdown({ onChange, options, selectedValue }: Mi
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="!bg-transparent h-fit flex !p-0 items-center gap-1 !text-gray-400 font-normal focus-visible:ring-0 focus-visible:text-gray-700">
+        <Button variant="ghost" className="!bg-transparent h-fit flex !p-0 items-center gap-1 !text-gray-400 font-medium focus-visible:ring-0 focus-visible:text-gray-700">
           {selectedValue} <ChevronDown className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
